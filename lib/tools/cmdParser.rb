@@ -34,9 +34,7 @@ class CmdParser
         opts.on("-d", "--simple", "set command = delete") do 
           @options.command = :delete
         end
-        
-        
-        
+
 	      # Boolean switch.
 	      opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
 		      @options.verbose = v
