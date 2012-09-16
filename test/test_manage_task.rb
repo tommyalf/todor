@@ -3,9 +3,6 @@ require 'handleTask'
 
 class TestManageClass < Test::Unit::TestCase
 
-
-
-
   def test_add_task
 
     @handle = HandleTask.new
@@ -64,4 +61,4 @@ class TestManageClass < Test::Unit::TestCase
 
 
 
-  end
+end

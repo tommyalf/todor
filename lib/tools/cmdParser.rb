@@ -11,6 +11,9 @@ class CmdParser
 	    @options = OpenStruct.new
 	    @options.verbose = false
 	    @options.command = nil
+      @options.configurationFile = 'configuration.yml'
+      @options.task = ''
+
 
 	    opts = OptionParser.new do |opts|
 	      opts.banner = "Usage: todor [options]"
@@ -23,16 +26,22 @@ class CmdParser
           @options.command = :list
         end
 
-        opts.on("-a", "--simple", "set command = add") do 
+        opts.on("-a", "--mandatory task", "set command = add") do |task|
           @options.command = :add
+          @options.task = task
         end
         
         opts.on("-u", "--simple", "set command = update") do 
           @options.command = :update
         end
 
-        opts.on("-d", "--simple", "set command = delete") do 
+        opts.on("-d", "--mandatory index", "set command = delete") do |index|
           @options.command = :delete
+          @options.task = index
+        end
+
+        opts.on("-c", "--optional [configuration]", "set configuration = file") do  |file|
+          @options.configurationFile = file
         end
 
 	      # Boolean switch.

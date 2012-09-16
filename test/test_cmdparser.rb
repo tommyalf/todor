@@ -45,6 +45,13 @@ class TestCmdParser < Test::Unit::TestCase
     assert_equal true, o.verbose
   end
 
+  def test_configuration
+    o = parse ['-c', 'myConfiguration.yml']
+    assert_equal 'myConfiguration.yml', o.configurationFile
+
+  end
+
+
   private
   
   def parse(args)
