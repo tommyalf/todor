@@ -7,7 +7,7 @@ class TestConfiguration < Test::Unit::TestCase
   # Called before every test method runs. Can be used
   # to set up fixture information.
   def setup
-    @configuration =  Configuration.new 'yamlEngine', 'configuration.yml'
+    @configuration =  Configuration.new 'engines/yamlEngine', 'configuration.yml'
   end
 
   # Called after every test method runs. Can be used to tear
@@ -33,7 +33,7 @@ class TestConfiguration < Test::Unit::TestCase
 
     puts "class:" + c.class.to_s
 
-    assert_equal 'yamlEngine', c.engine
+    assert_equal 'engines/yamlEngine', c.engine
     assert_equal 'configuration.yml', c.configurationFile
   end
 

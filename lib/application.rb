@@ -1,44 +1,69 @@
 require "configuration"
-
+require 'handleTask'
+require "pathname"
 
 class Application
 
-    def self.run options
-      @options = options
-      @configuration = Configuration.load options.configurationFile
+  def self.run options
+    @options = options
+    @configuration = Configuration.load options.configurationFile
 
-      @handle_task = HandleTask.new
-      @handle_task.configuration = @configuration
+    @handle_task = HandleTask.new
+    @handle_task.configuration = @configuration
 
-      require "engines/yamlEngine" #@configuration.engine
+    engine = @configuration.engine
 
-      engine = @configuration.engine[0].capitalize + @configuration.engine[1..-1]
+    require engine
 
-      @handle_task.engine= eval engine + ".new"
-      @handle_task.load @configuration.tasksFile
+    engine_class = Pathname.new(engine).basename.to_s
 
-      puts "options:" + @options.to_s
+    engine_class = engine_class[0].capitalize + engine_class[1..-1]
 
-      executeList if @options.command == :list
-      executeAddTask if @options.command == :add
-      executeDeleteTask if @options.command == :delete
+    @handle_task.engine= eval engine_class + ".new"
+    @handle_task.load @configuration.tasksFile
 
-      @handle_task.save
-    end
+    #puts "options:" + @options.to_s
 
-    def self.executeDeleteTask
-      @handle_task.delete @options.task
-    end
+    executeAddTask if @options.command == :add
+    executeDeleteTask if @options.command == :delete
+    executeModifyTask if @options.command == :update
+    executeChangePriorityTask if @options.command == :change_priority
+    executeDoneTask if @options.command == :done
 
-    def self.executeAddTask
-      task = @options.task
-      puts 'add task ' + task
-      @handle_task.add task
 
-    end
+    @handle_task.save
 
-    def self.executeList
-      puts @handle_task.showTasks
-    end
+    executeList
+  end
+
+  def self.executeDoneTask
+    @handle_task.done @options.index
+  end
+
+  def self.executeChangePriorityTask
+    @handle_task.change_priority @options.index, @options.priority
+  end
+
+  def self.executeModifyTask
+    task = @options.task
+    puts 'modify task ' + task.to_s + ' ' + @options.index.to_s
+    @handle_task.modify @options.index, task, @options.priority
+  end
+
+  def self.executeDeleteTask
+    index = @options.index
+    puts 'Delete index:' + index.to_s
+    @handle_task.delete index
+  end
+
+  def self.executeAddTask
+    task = @options.task
+    #puts 'add task ' + task
+    @handle_task.add task, @options.priority
+  end
+
+  def self.executeList
+    @handle_task.showTasks
+  end
 
 end

@@ -1,3 +1,4 @@
 require 'todor'
 
-print Todor.do
+
+Todor.do

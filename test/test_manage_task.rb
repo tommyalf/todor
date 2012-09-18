@@ -1,11 +1,25 @@
 require 'helper'
 require 'handleTask'
 
+class MyEngine
+
+  def save objects
+    puts objects
+  end
+
+  def load
+    Hash.new
+  end
+
+end
+
+
 class TestManageClass < Test::Unit::TestCase
 
   def test_add_task
 
     @handle = HandleTask.new
+    @handle.engine= MyEngine.new
     @handle.add 'test'
 
     assert_equal 1, @handle.tasks.size
@@ -42,7 +56,7 @@ class TestManageClass < Test::Unit::TestCase
     m = t.clone
     m.text = 'test xxx'
 
-    h.modify 2, m
+    h.modify 2, m.text
 
     assert_equal 'test xxx', h.tasks[2].text
 
@@ -58,6 +72,14 @@ class TestManageClass < Test::Unit::TestCase
     puts h.save
 
   end
+
+  def test_done
+    h = test_add_task
+    h.done 1
+
+  end
+
+
 
 
 

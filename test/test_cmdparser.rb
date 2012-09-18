@@ -28,7 +28,7 @@ class TestCmdParser < Test::Unit::TestCase
   end
 
   def test_del
-    o = parse ['-d', 'x', 'x', 'x']
+    o = parse ['-d-2', 'x', 'x', 'x']
     assert_equal :delete, o.command
     
     o = parse ['-v', 'delete', 'x', 'x']
@@ -44,6 +44,13 @@ class TestCmdParser < Test::Unit::TestCase
     assert_equal :update, o.command
     assert_equal true, o.verbose
   end
+
+  def test_done
+    o = parse ['-o', 'x', 'x', 'x']
+    assert_equal :done, o.command
+
+  end
+
 
   def test_configuration
     o = parse ['-c', 'myConfiguration.yml']

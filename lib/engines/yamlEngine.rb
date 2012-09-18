@@ -7,7 +7,7 @@ class YamlEngine
     def load file
       @file = file
       o = YAML::load(File.read(@file))
-      puts "uuuu"+ o.class.to_s
+      #puts "uuuu"+ o.class.to_s
       o
 
     rescue Exception => e
@@ -16,7 +16,7 @@ class YamlEngine
     end
 
     def save object
-      puts "objects:" + object.to_yaml
+      #puts "objects:" + object.to_yaml
       File.open(@file, 'w') {|f| f.write(YAML.dump(object)) }
     end
 

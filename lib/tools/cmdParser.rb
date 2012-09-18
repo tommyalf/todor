@@ -12,7 +12,9 @@ class CmdParser
 	    @options.verbose = false
 	    @options.command = nil
       @options.configurationFile = 'configuration.yml'
+      @options.priority = -1
       @options.task = ''
+      @options.index = 0
 
 
 	    opts = OptionParser.new do |opts|
@@ -31,18 +33,33 @@ class CmdParser
           @options.task = task
         end
         
-        opts.on("-u", "--simple", "set command = update") do 
+        opts.on("-u", "--mandatory task", "set command = update") do |task|
           @options.command = :update
+          @options.task = task
         end
 
-        opts.on("-d", "--mandatory index", "set command = delete") do |index|
+        opts.on("-d", "--mandatory index", Integer,  "set command = delete") do |index|
           @options.command = :delete
-          @options.task = index
+          @options.index = index
+        end
+
+        opts.on("-o", "--simple",  "set do task indexed") do
+          @options.command = :done
         end
 
         opts.on("-c", "--optional [configuration]", "set configuration = file") do  |file|
           @options.configurationFile = file
         end
+
+        opts.on("-p", "-.mandatory priority", Integer, "priority") do  |priority|
+          @options.command= :change_priority if @options.command == nil #not in (update/Add/delete/list)
+          @options.priority= priority
+        end
+
+        opts.on("-i", "--mandatory index", Integer, "set command = add") do |index|
+          @options.index = index
+        end
+
 
 	      # Boolean switch.
 	      opts.on("-v", "--[no-]verbose", "Run verbosely") do |v|
@@ -55,6 +72,7 @@ class CmdParser
 		      puts opts
 		      exit
 	      end
+
 	    end
 
 	    opts.parse!(args)

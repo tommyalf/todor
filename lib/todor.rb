@@ -1,9 +1,13 @@
 require 'tools/cmdParser'
+require 'application'
 
 
 module Todor
+
   def self.do
-	options = CmdParser.parse(ARGV)
-  Application.run options
+    cmd_parser = CmdParser.new
+    options = cmd_parser.parse(ARGV)
+    Application.run options
   end
+
 end
