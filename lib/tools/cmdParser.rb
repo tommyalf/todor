@@ -15,6 +15,8 @@ class CmdParser
       @options.priority = -1
       @options.task = ''
       @options.index = 0
+      @options.has_projects = false
+      @options.projects = []
 
 
 	    opts = OptionParser.new do |opts|
@@ -54,6 +56,11 @@ class CmdParser
         opts.on("-p", "-.mandatory priority", Integer, "priority") do  |priority|
           @options.command= :change_priority if @options.command == nil #not in (update/Add/delete/list)
           @options.priority= priority
+        end
+
+        opts.on("-y x,y,z", Array, "priority") do  |projects|
+          @options.has_projects =  true
+          @options.projects = projects
         end
 
         opts.on("-i", "--mandatory index", Integer, "set command = add") do |index|

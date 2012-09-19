@@ -58,6 +58,14 @@ class TestCmdParser < Test::Unit::TestCase
 
   end
 
+  def test_add_project
+    o = parse ['-yproject, 4,yyy', 'x']
+    assert_equal ['-yproject', ' 4','yyy'], o.projects
+    assert_equal true, o.has_projects
+
+  end
+
+
 
   private
   

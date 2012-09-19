@@ -60,7 +60,11 @@ class HandleTask
   def showTasks
     t = @tasks.sort { |x, y| y[1].priority <=> x[1].priority }
 
-    t.each { |key, task| puts "#{key}: (#{task.priority} #{'done' if task.done})  #{task.text}" }
+    t.each { |key, task| puts "#{key}: (#{task.priority} #{'done' if task.done} {#{task.projects}}  )  #{task.text}" }
+  end
+
+  def add_projects index, projects
+      @tasks[index].projects << projects
   end
 
 end 

@@ -29,11 +29,17 @@ class Application
     executeModifyTask if @options.command == :update
     executeChangePriorityTask if @options.command == :change_priority
     executeDoneTask if @options.command == :done
+    executeAddProjects if @options.has_projects
 
 
     @handle_task.save
 
     executeList
+  end
+
+  def self.executeAddProjects
+    puts 'add project'
+    @handle_task.add_projects @options.index, @options.projects
   end
 
   def self.executeDoneTask
